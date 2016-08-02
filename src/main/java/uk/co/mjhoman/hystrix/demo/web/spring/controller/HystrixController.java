@@ -25,6 +25,8 @@ public class HystrixController {
 			command.request(mode);
 		} catch (IllegalArgumentException illegalArgumentException) {
 			// do nothing
+		} catch (InterruptedException interruptedException) {
+			// do nothing
 		}
 
 		return "index";
