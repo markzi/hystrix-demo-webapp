@@ -22,7 +22,7 @@ public class HystrixDemoCommand {
 		return "worked";
 	}
 
-	public String requestFallback() {
+	public String requestFallback(String mode) {
 		return "down";
 	}
 }
