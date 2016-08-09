@@ -1,9 +1,11 @@
 package uk.co.mjhoman.hystrix.demo.web.spring.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import uk.co.mjhoman.hystrix.demo.command.HystrixDemoCommand;
 
@@ -18,8 +20,14 @@ public class HystrixController {
 		return "forward:/hystrix";
 	}
 
+	@RequestMapping("/demo")
+	public String demo() {
+		return "index";
+	}
+
 	@RequestMapping("/request")
-	public String request(@RequestParam("mode") String mode) {
+	@ResponseStatus(value = HttpStatus.OK)
+	public void request(@RequestParam("mode") String mode) {
 
 		try {
 			command.request(mode);
@@ -28,8 +36,6 @@ public class HystrixController {
 		} catch (InterruptedException interruptedException) {
 			// do nothing
 		}
-
-		return "index";
 	}
 
 }

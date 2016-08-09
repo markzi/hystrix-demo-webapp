@@ -19,16 +19,32 @@
   </head>
   <body>
 
-    <div class="container theme-showcase" role="main">
+    <div class="container theme-showcase" role="main" layout:fragment="content">
 
       <!-- Main jumbotron for a primary marketing message or call to action -->
-      <div class="jumbotron" layout:fragment="content">
-        <h1>Hystrix Demo 1</h1>
+      <div class="jumbotron">
+        <h1>Hystrix Demo</h1>
+      </div>
+
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title">Good Request</h3>
+        </div>
+        <div class="panel-body">
+          <button id="buttonGoodRequest" type="button" class="btn btn-success">Send</button>
+
+        </div>
       </div>
 
     </div>
 
+
+
+
+
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
   </body>
 </html>
