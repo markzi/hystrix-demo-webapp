@@ -1,3 +1,4 @@
+
 package uk.co.mjhoman.hystrix.demo;
 
 import org.springframework.beans.BeansException;
@@ -9,44 +10,51 @@ import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboar
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.templateresolver.TemplateResolver;
+
+import com.netflix.hystrix.HystrixCommandProperties;
 
 import nz.net.ultraq.thymeleaf.LayoutDialect;
 
 @SpringBootApplication
 @EnableCircuitBreaker
 @Configurable
-@EnableWebMvc
 @EnableHystrixDashboard
-public class HystrixDemoWebappApplication extends WebMvcConfigurerAdapter implements ApplicationContextAware {
+public class HystrixDemoWebappApplication extends WebMvcConfigurerAdapter implements ApplicationContextAware
+{
 
     public static final String CHARACTER_ENCODING = "UTF-8";
 
-
     private ApplicationContext applicationContext;
 
-
-
-    public HystrixDemoWebappApplication() {
+    public HystrixDemoWebappApplication()
+    {
         super();
     }
 
-
-    public void setApplicationContext(final ApplicationContext applicationContext) throws BeansException {
+    public void setApplicationContext(final ApplicationContext applicationContext) throws BeansException
+    {
         this.applicationContext = applicationContext;
     }
 
+    public static void main(String[] args)
+    {
+        SpringApplication.run(HystrixDemoWebappApplication.class, args);
+    }
 
-	public static void main(String[] args) {
-		SpringApplication.run(HystrixDemoWebappApplication.class, args);
-	}
-	
-	@Bean
-    public TemplateResolver templateResolver(){
+    @Override
+    public void addResourceHandlers(final ResourceHandlerRegistry registry)
+    {
+        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+    }
+
+    @Bean
+    public TemplateResolver templateResolver()
+    {
         SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
         templateResolver.setApplicationContext(this.applicationContext);
         templateResolver.setPrefix("/WEB-INF/views/");
@@ -57,12 +65,13 @@ public class HystrixDemoWebappApplication extends WebMvcConfigurerAdapter implem
         templateResolver.setCacheable(true);
         return templateResolver;
     }
-	
-	@Bean
-	public SpringTemplateEngine templateEngine() {
-	    SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-	    templateEngine.setTemplateResolver(templateResolver());
-	    templateEngine.addDialect(new LayoutDialect());
-	    return templateEngine;
-	}
+
+    @Bean
+    public SpringTemplateEngine templateEngine()
+    {
+        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+        templateEngine.setTemplateResolver(templateResolver());
+        templateEngine.addDialect(new LayoutDialect());
+        return templateEngine;
+    }
 }

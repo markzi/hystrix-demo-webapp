@@ -26,38 +26,39 @@
             <h1>Hystrix Demo</h1>
         </div>
 
-        <div class="panel panel-primary">
+        <div class="panel panel-warning">
             <div class="panel-heading">
-                <h3 class="panel-title">Good Request</h3>
+                <h3 class="panel-title">ERROR</h3>
             </div>
             <div class="panel-body">
-                <button id="buttonGoodRequest" type="button" class="btn btn-success">Send</button>
+                <p th:if="${url}">
+                    <b>Page:</b> <span th:text="${url}">Page URL</span>
+                </p>
+
+                <p th:if="${timestamp}" id='created'>
+                    <b>Occurred:</b> <span th:text="${timestamp}">Timestamp</span>
+                </p>
+
+                <p th:if="${status}">
+                    <b>Response Status:</b> <span th:text="${status}">status-code</span> <span th:if="${error}" th:text="'('+${error}+')'">error ...</span>
+                </p>
+
+                <div th:utext="'&lt;!--'" th:remove="tag"></div>
+                <div th:utext="'Failed URL: ' +  ${url}" th:remove="tag">${url}</div>
+                <div th:utext="'Exception: ' + ${exception.message}" th:remove="tag">${exception.message}</div>
+                <ul th:remove="tag">
+                    <li th:each="ste : ${exception.stackTrace}" th:remove="tag"><span th:utext="${ste}" th:remove="tag">${ste}</span></li>
+                </ul>
+                <div th:utext="'--&gt;'" th:remove="tag"></div>
 
             </div>
         </div>
 
     </div>
 
-    <script src="/resources/js/jquery-3.1.0.js"></script>
-
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-    <script>
-        $("#buttonGoodRequest").click(function() {
-            sendToServer($(this));
-        });
-    
-        function sendToServer(requester) {
-            $.ajax({
-                url : "http://localhost:8080/request?mode=ok"
-            }).done(function() {
-                requester.disabled(true);
-            }).always(function() {
-                requester.disabled(false);
-            });
-        }
-    </script>
 
 </body>
 </html>
